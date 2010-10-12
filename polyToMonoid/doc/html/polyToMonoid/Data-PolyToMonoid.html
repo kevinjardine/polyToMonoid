@@ -21,7 +21,7 @@
 ><IMG SRC="haskell_icon.gif" WIDTH="16" HEIGHT="16" ALT=" "
 ></TD
 ><TD CLASS="title"
->polyToMonoid-0.1: Polyvariadic function to monoid</TD
+>polyToMonoid-0.1: Polyvariadic functions mapping to a given monoid</TD
 ><TD CLASS="topbut"
 ><A HREF="index.html"
 >Contents</A
@@ -120,7 +120,7 @@
 ></TR
 ><TR
 ><TD CLASS="doc"
->Creates a polyvariadic function that maps its parameters into a monoid.
+>Creates polyvariadic functions that maps their parameters into a given monoid.
 </TD
 ></TR
 ><TR
@@ -186,6 +186,44 @@
 ></TABLE
 ></TD
 ></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A HREF="#t%3ACPolyVariadic"
+>CPolyVariadic</A
+> m r  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Actm"
+>ctm</A
+> :: m -&gt; r</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A HREF="#t%3ATerminate"
+>Terminate</A
+> m</TD
+></TR
 ></TABLE
 ></TD
 ></TR
@@ -218,20 +256,30 @@ It is sometimes useful to create list-like functions that accept an indefinite
 number of parameters of multiple types.
 </P
 ><P
->PolyToMonoid provides such a function, <TT
+>PolyToMonoid provides two such functions, <TT
 ><A HREF="Data-PolyToMonoid.html#v%3Aptm"
 >ptm</A
 ></TT
-> and a typeclass <TT
+> and <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+>, as well as a typeclass <TT
 ><A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
 >Monoidable</A
 ></TT
->. The only precondition is that the
+>. 
+The only precondition is that the
 parameters of <TT
 ><A HREF="Data-PolyToMonoid.html#v%3Aptm"
 >ptm</A
 ></TT
-> can be mapped to an underlying monoid using the <TT
+> and <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+> can be mapped to an underlying monoid using 
+the <TT
 ><A HREF="Data-PolyToMonoid.html#v%3AtoMonoid"
 >toMonoid</A
 ></TT
@@ -263,11 +311,7 @@ parameters of <TT
 ><TR
 ><TD CLASS="doc"
 ><P
->To understand how <TT
-><A HREF="Data-PolyToMonoid.html#v%3Aptm"
->ptm</A
-></TT
-> works, consider a function <TT
+>To understand how the polyToMonoid functions work, consider a function <TT
 >list</TT
 > that maps its parameters to 
 a list:
@@ -325,7 +369,31 @@ underlying monoid to use.
 >Specifically, you can pass <TT
 >mempty</TT
 > as the first element of the function and annotate it with the type of the 
-monoid it belongs to. 
+monoid it belongs to.
+</P
+><P
+>This library provides two variants of a polyToMonoid function. The first, <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+>,
+simply takes a list of arguments starting with mempty and returns the monoid result.
+</P
+><P
+>The second variant, <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+>, is composible. In effect, it returns a function that consumes the next parameter.
+You can feed the <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+> result to a second termination function <TT
+><A HREF="Data-PolyToMonoid.html#v%3Atrm"
+>trm</A
+></TT
+> to get the actual result.
 </P
 ></TD
 ></TR
@@ -408,6 +476,37 @@ monoid it belongs to.
 > value as like the initial value of a fold.
 </P
 ><P
+>Unlike <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+>, the <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+> function in effect returns a partial function ready to consume
+the next parameter rather than a monoid result.
+</P
+><P
+>It is therefore more composable, at the cost of requiring a second termination function <TT
+><A HREF="Data-PolyToMonoid.html#v%3Atrm"
+>trm</A
+></TT
+>
+to return the actual monoid result.
+</P
+><PRE
+> ctmfirstbit = ctm mempty :: [String]) True &quot;alpha&quot;
+ ctmsecondbit = ctmfirstbit [(5 :: Int)]
+ finalresult = trm ctmsecondbit
+</PRE
+><P
+>The result returned would be the same as above:
+</P
+><PRE
+> [&quot;True&quot;,&quot;\&quot;alpha]\&quot;&quot;,&quot;[5]&quot;]
+</PRE
+><P
 >Monoids, of course, do not have to be lists.
 </P
 ><P
@@ -435,7 +534,25 @@ monoid it belongs to.
 >ptm</A
 ></TT
 > accepts parameters that are either ints or doubles, converts them to doubles, 
-and then multiplies them together.    
+and then multiplies them together.
+</P
+><P
+>You can use the composibility of <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+> to define a productOf function:
+</P
+><P
+>productOf = ctm (mempty :: Double)
+trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
+</P
+><P
+>As before the <TT
+><A HREF="Data-PolyToMonoid.html#v%3Atrm"
+>trm</A
+></TT
+> function is required to terminate the calculation and deliver the final result.
 </P
 ></TD
 ></TR
@@ -605,6 +722,142 @@ and then multiplies them together.
 > m r) =&gt; <A HREF="Data-PolyToMonoid.html#t%3APolyVariadic"
 >PolyVariadic</A
 > m (a -&gt; r)</TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A NAME="t:CPolyVariadic"
+><A NAME="t%3ACPolyVariadic"
+></A
+></A
+><B
+>CPolyVariadic</B
+> m r  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+><P
+>ctm is a composable variant of ptm.
+</P
+><P
+>To actually get its value, use the terminator function trm.
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+>Methods</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A NAME="v:ctm"
+><A NAME="v%3Actm"
+></A
+></A
+><B
+>ctm</B
+> :: m -&gt; r</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:CPolyVariadic')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:CPolyVariadic" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>(m' ~ m, Monoid m') =&gt; <A HREF="Data-PolyToMonoid.html#t%3ACPolyVariadic"
+>CPolyVariadic</A
+> m (<A HREF="Data-PolyToMonoid.html#t%3ATerminate"
+>Terminate</A
+> m')</TD
+></TR
+><TR
+><TD CLASS="decl"
+>(<A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+> a m, <A HREF="Data-PolyToMonoid.html#t%3ACPolyVariadic"
+>CPolyVariadic</A
+> m r) =&gt; <A HREF="Data-PolyToMonoid.html#t%3ACPolyVariadic"
+>CPolyVariadic</A
+> m (a -&gt; r)</TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>data</SPAN
+>  <A NAME="t:Terminate"
+><A NAME="t%3ATerminate"
+></A
+></A
+><B
+>Terminate</B
+> m </TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Terminate')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:Terminate" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>(m' ~ m, Monoid m') =&gt; <A HREF="Data-PolyToMonoid.html#t%3ACPolyVariadic"
+>CPolyVariadic</A
+> m (<A HREF="Data-PolyToMonoid.html#t%3ATerminate"
+>Terminate</A
+> m')</TD
 ></TR
 ></TABLE
 ></DIV

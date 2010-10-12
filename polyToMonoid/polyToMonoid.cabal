@@ -10,7 +10,7 @@ Name:                polyToMonoid
 Version:             0.1
 
 -- A short (one-line) description of the package.
-Synopsis:            Polyvariadic function to monoid
+Synopsis:            Polyvariadic functions mapping to a given monoid
 
 -- A longer description of the package.
 Description:  {
