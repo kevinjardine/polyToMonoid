@@ -1,0 +1,629 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--Rendered using the Haskell Html Library v0.2-->
+<HTML
+><HEAD
+><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"
+><TITLE
+>Data.PolyToMonoid</TITLE
+><LINK HREF="haddock.css" REL="stylesheet" TYPE="text/css"
+><SCRIPT SRC="haddock-util.js" TYPE="text/javascript"
+></SCRIPT
+><SCRIPT TYPE="text/javascript"
+>window.onload = function () {setSynopsis("mini_Data-PolyToMonoid.html")};</SCRIPT
+></HEAD
+><BODY
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="topbar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><IMG SRC="haskell_icon.gif" WIDTH="16" HEIGHT="16" ALT=" "
+></TD
+><TD CLASS="title"
+>polyToMonoid-0.1: Polyvariadic function to monoid</TD
+><TD CLASS="topbut"
+><A HREF="index.html"
+>Contents</A
+></TD
+><TD CLASS="topbut"
+><A HREF="doc-index.html"
+>Index</A
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="modulebar"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD
+><FONT SIZE="6"
+>Data.PolyToMonoid</FONT
+></TD
+><TD ALIGN="right"
+><TABLE CLASS="narrow" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="infohead"
+>Portability</TD
+><TD CLASS="infoval"
+>non-portable (depends on GHC extensions)</TD
+></TR
+><TR
+><TD CLASS="infohead"
+>Stability</TD
+><TD CLASS="infoval"
+>provisional</TD
+></TR
+><TR
+><TD CLASS="infohead"
+>Maintainer</TD
+><TD CLASS="infoval"
+>Kevin Jardine &lt;kevinjardine@yahoo.com&gt;</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="section4"
+><B
+>Contents</B
+></TD
+></TR
+><TR
+><TD
+><DL
+><DT
+><A HREF="#1"
+>Introduction
+</A
+></DT
+><DT
+><A HREF="#2"
+>Concept
+</A
+></DT
+><DT
+><A HREF="#3"
+>Examples
+</A
+></DT
+><DT
+><A HREF="#4"
+>Extensions
+</A
+></DT
+></DL
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Description</TD
+></TR
+><TR
+><TD CLASS="doc"
+>Creates a polyvariadic function that maps its parameters into a monoid.
+</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+>Synopsis</TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A HREF="#t%3AMonoidable"
+>Monoidable</A
+> a m  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3AtoMonoid"
+>toMonoid</A
+> :: a -&gt; m</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A HREF="#t%3APolyVariadic"
+>PolyVariadic</A
+> m r  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A HREF="#v%3Aptm"
+>ptm</A
+> :: m -&gt; r</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+><A NAME="1"
+><A NAME="1"
+>Introduction
+</A
+></A
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>Haskell lists contain an indefinite number of elements of a single type. 
+It is sometimes useful to create list-like functions that accept an indefinite
+number of parameters of multiple types.
+</P
+><P
+>PolyToMonoid provides such a function, <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> and a typeclass <TT
+><A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+></TT
+>. The only precondition is that the
+parameters of <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> can be mapped to an underlying monoid using the <TT
+><A HREF="Data-PolyToMonoid.html#v%3AtoMonoid"
+>toMonoid</A
+></TT
+> function provided by <TT
+><A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+></TT
+>.
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+><A NAME="2"
+><A NAME="2"
+>Concept
+</A
+></A
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>To understand how <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> works, consider a function <TT
+>list</TT
+> that maps its parameters to 
+a list:
+</P
+><PRE
+> list p1 p2 ... pN =
+    [p1] ++ [p2] ++ ... ++ [pN]
+</PRE
+><P
+>(which is the same as <TT
+>[p1,p2, ..., pN]</TT
+> )
+</P
+><P
+><TT
+>list</TT
+> can be generalised to any monoid conceptually as:
+</P
+><PRE
+> polyToMonoid p1 p2 ... pN =
+    (toMonoid p1) `mappend` (toMonoid p2) `mappend` ... `mappend` (toMonoid pN)
+</PRE
+><P
+>Remember that a monoid, defined in <A HREF="Data-Monoid.html"
+>Data.Monoid</A
+>, is any set of elements 
+with an identity element <TT
+>mempty</TT
+> and an associative operator <TT
+>mappend</TT
+> .
+</P
+><P
+>As any list type is automatically a monoid with <TT
+>mempty = []</TT
+> and <TT
+>mappend = (++)</TT
+>, 
+the <TT
+>list</TT
+> function defined above is just a specific version of <TT
+>polyToMonoid</TT
+>.
+</P
+><P
+>The main difficulty with defining a <TT
+>polyToMonoid</TT
+> function is communicating to Haskell what
+underlying monoid to use.
+</P
+><P
+>Through Haskell type magic, this can be done with a simple type annotation.
+</P
+><P
+>Specifically, you can pass <TT
+>mempty</TT
+> as the first element of the function and annotate it with the type of the 
+monoid it belongs to. 
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+><A NAME="3"
+><A NAME="3"
+>Examples
+</A
+></A
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>We can first tell Haskell how to map a set of types to a list of strings using <TT
+><A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+></TT
+>:
+</P
+><PRE
+> instance Show a =&gt; Monoidable a [String] where
+    toMonoid a = [show a]
+</PRE
+><P
+>and then tell <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> to use the <TT
+>[String]</TT
+> monoid:
+</P
+><PRE
+> ptm (mempty :: [String]) True &quot;alpha&quot; [(5 :: Int)]
+</PRE
+><P
+>The result returned would be:
+</P
+><PRE
+> [&quot;True&quot;,&quot;\&quot;alpha]\&quot;&quot;,&quot;[5]&quot;]
+</PRE
+><P
+>In this case, <TT
+><A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+></TT
+> tells the <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> function to accept a wide variety of types 
+(anything with a <TT
+>show</TT
+> function) when using the <TT
+>[String]</TT
+> monoid.
+</P
+><P
+>The first parameter of <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+>, <TT
+>(mempty :: [String])</TT
+> tells it to map its parameters into the
+<TT
+>[String]</TT
+> monoid. Think of the <TT
+>mempty</TT
+> value as like the initial value of a fold.
+</P
+><P
+>Monoids, of course, do not have to be lists.
+</P
+><P
+>Here's a second example which multiplies together numbers of several types:
+</P
+><PRE
+> instance Monoid Double where
+     mappend = (*)
+     mempty = (1.0) :: Double
+</PRE
+><PRE
+> instance Monoidable Int Double where
+     toMonoid = fromIntegral
+</PRE
+><PRE
+> instance Monoidable Double Double where
+     toMonoid = id
+</PRE
+><PRE
+> ptm (mempty :: Double) (5 :: Int) (2.3 :: Double) (3 :: Int)
+</PRE
+><P
+>In this case, <TT
+><A HREF="Data-PolyToMonoid.html#v%3Aptm"
+>ptm</A
+></TT
+> accepts parameters that are either ints or doubles, converts them to doubles, 
+and then multiplies them together.    
+</P
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="section1"
+><A NAME="4"
+><A NAME="4"
+>Extensions
+</A
+></A
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="doc"
+><P
+>You will probably need to enable the following extensions to use this library:
+</P
+><PRE
+> TypeSynonymInstances, FlexibleInstances, MultiParamTypeClasses
+</PRE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A NAME="t:Monoidable"
+><A NAME="t%3AMonoidable"
+></A
+></A
+><B
+>Monoidable</B
+> a m  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+>Define instances of Monoidable to tell Haskell
+ how to convert your parameters into values in the underlying 
+ monoid
+</TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+>Methods</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A NAME="v:toMonoid"
+><A NAME="v%3AtoMonoid"
+></A
+></A
+><B
+>toMonoid</B
+> :: a -&gt; m</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="decl"
+><SPAN CLASS="keyword"
+>class</SPAN
+> Monoid m =&gt; <A NAME="t:PolyVariadic"
+><A NAME="t%3APolyVariadic"
+></A
+></A
+><B
+>PolyVariadic</B
+> m r  <SPAN CLASS="keyword"
+>where</SPAN
+></TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="ndoc"
+><P
+>Conceptually, ptm is defined as:
+</P
+><PRE
+>    ptm (mempty :: MyMonoid) p1 p2 ... pN =
+        (toMonoid p1) `mappend` (toMonoid p2) `mappend` ... `mappend` (toMonoid pN)
+</PRE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+>Methods</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+><A NAME="v:ptm"
+><A NAME="v%3Aptm"
+></A
+></A
+><B
+>ptm</B
+> :: m -&gt; r</TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s8"
+></TD
+></TR
+><TR
+><TD CLASS="section4"
+><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:PolyVariadic')" ALT="show/hide"
+> Instances</TD
+></TR
+><TR
+><TD CLASS="body"
+><DIV ID="i:PolyVariadic" STYLE="display:block;"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="decl"
+>(m' ~ m, Monoid m') =&gt; <A HREF="Data-PolyToMonoid.html#t%3APolyVariadic"
+>PolyVariadic</A
+> m m'</TD
+></TR
+><TR
+><TD CLASS="decl"
+>(<A HREF="Data-PolyToMonoid.html#t%3AMonoidable"
+>Monoidable</A
+> a m, <A HREF="Data-PolyToMonoid.html#t%3APolyVariadic"
+>PolyVariadic</A
+> m r) =&gt; <A HREF="Data-PolyToMonoid.html#t%3APolyVariadic"
+>PolyVariadic</A
+> m (a -&gt; r)</TD
+></TR
+></TABLE
+></DIV
+></TD
+></TR
+></TABLE
+></TD
+></TR
+><TR
+><TD CLASS="s15"
+></TD
+></TR
+><TR
+><TD CLASS="botbar"
+>Produced by <A HREF="http://www.haskell.org/haddock/"
+>Haddock</A
+> version 2.6.1</TD
+></TR
+></TABLE
+></BODY
+></HTML
+>
