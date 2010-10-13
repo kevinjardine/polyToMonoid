@@ -1,8 +1,9 @@
 Haskell lists contain an indefinite number of elements of a single type. 
 It is sometimes useful to create list-like functions that accept an indefinite
-number of parameters of multiple types.
+number of parameters of multiple types. These are called polyvariadic 
+functions.
 
-PolyToMonoid provides two such functions, 'ptm' and 'ctm', as well as a 
+PolyToMonoid provides two polyvariadic functions, 'ptm' and 'ctm', as well as a 
 typeclass 'Monoidable'. The only precondition is that the parameters of 'ptm'
 and 'ctm' can be mapped to an underlying monoid using the 'toMonoid' function
 provided by 'Monoidable'.
