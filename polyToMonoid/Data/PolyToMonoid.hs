@@ -9,7 +9,7 @@
    Stability  : provisional
    Portability: non-portable (depends on GHC extensions)
    
-Creates polyvariadic functions that maps their parameters into a given monoid.
+Creates polyvariadic functions that map their parameters into a given monoid.
 
 -}
 
@@ -29,7 +29,7 @@ module Data.PolyToMonoid (
     Monoidable(toMonoid),
     PolyVariadic(ptm),
     CPolyVariadic(ctm),
-    Terminate(trm)
+    Terminate(..)
 ) where
 
 import Data.Monoid
@@ -132,12 +132,12 @@ Here's a second example which multiplies together numbers of several types:
 In this case, 'ptm' accepts parameters that are either ints or doubles, converts them to doubles, 
 and then multiplies them together.
 
-You can use the composibility of 'ctm' to define a productOf function:
+You can use the composibility of 'ctm' to define a @productOf@ function:
 
-productOf = ctm (mempty :: Double)
-trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
+> productOf = ctm (mempty :: Double)
+> trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
 
-As before the 'trm' function is required to terminate the calculation and deliver the final result.
+As before the 'trm' function is required to terminate the 'ctm' calculation and deliver the final result.
      
 -}
 
@@ -175,7 +175,10 @@ To actually get its value, use the terminator function trm.
 class Monoid m => CPolyVariadic m r where
     ctm :: m -> r
     
-data Terminate m = Terminate {trm :: m}
+data Terminate m =
+    Terminate {
+        trm :: m -- ^ Use the terminator function trm to get the value of a ctm calculation.
+    }
 
 instance (Monoid m', m' ~ m) => CPolyVariadic m (Terminate m') where
     ctm acc = Terminate acc

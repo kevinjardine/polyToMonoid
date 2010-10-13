@@ -120,7 +120,7 @@
 ></TR
 ><TR
 ><TD CLASS="doc"
->Creates polyvariadic functions that maps their parameters into a given monoid.
+>Creates polyvariadic functions that map their parameters into a given monoid.
 </TD
 ></TR
 ><TR
@@ -222,7 +222,17 @@
 >data</SPAN
 >  <A HREF="#t%3ATerminate"
 >Terminate</A
-> m</TD
+> m = <A HREF="#v%3ATerminate"
+>Terminate</A
+> {<TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="recfield"
+><A HREF="#v%3Atrm"
+>trm</A
+> :: m</TD
+></TR
+></TABLE
+>}</TD
 ></TR
 ></TABLE
 ></TD
@@ -541,18 +551,24 @@ and then multiplies them together.
 ><A HREF="Data-PolyToMonoid.html#v%3Actm"
 >ctm</A
 ></TT
-> to define a productOf function:
+> to define a <TT
+>productOf</TT
+> function:
 </P
-><P
->productOf = ctm (mempty :: Double)
-trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
-</P
+><PRE
+> productOf = ctm (mempty :: Double)
+ trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
+</PRE
 ><P
 >As before the <TT
 ><A HREF="Data-PolyToMonoid.html#v%3Atrm"
 >trm</A
 ></TT
-> function is required to terminate the calculation and deliver the final result.
+> function is required to terminate the <TT
+><A HREF="Data-PolyToMonoid.html#v%3Actm"
+>ctm</A
+></TT
+> calculation and deliver the final result.
 </P
 ></TD
 ></TR
@@ -842,6 +858,47 @@ trm $ productOf (5 :: Int) (2.3 :: Double) (3 :: Int)
 ><TR
 ><TD CLASS="body"
 ><TABLE CLASS="vanilla" CELLSPACING="0" CELLPADDING="0"
+><TR
+><TD CLASS="section4"
+>Constructors</TD
+></TR
+><TR
+><TD CLASS="body"
+><TABLE CLASS="vanilla" CELLSPACING="5" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:Terminate"
+><A NAME="v%3ATerminate"
+></A
+></A
+><B
+>Terminate</B
+></TD
+><TD CLASS="rdoc"
+></TD
+></TR
+><TR
+><TD CLASS="body" COLSPAN="2"
+><TABLE CLASS="vanilla" CELLSPACING="1" CELLPADDING="0"
+><TR
+><TD CLASS="arg"
+><A NAME="v:trm"
+><A NAME="v%3Atrm"
+></A
+></A
+><B
+>trm</B
+> :: m</TD
+><TD CLASS="rdoc"
+>Use the terminator function trm to get the value of a ctm calculation.
+</TD
+></TR
+></TABLE
+></TD
+></TR
+></TABLE
+></TD
+></TR
 ><TR
 ><TD CLASS="section4"
 ><IMG SRC="minus.gif" CLASS="coll" ONCLICK="toggle(this,'i:Terminate')" ALT="show/hide"
